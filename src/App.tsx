@@ -6,7 +6,7 @@ import WidgetList from './components/WidgetList'
 
 const App = (): JSX.Element => {
   return (<Stack>
-    <WidgetList></WidgetList>
+    <WidgetList/>
   </Stack>)
 }
 
