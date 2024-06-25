@@ -4,22 +4,36 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import WidgetDisplay from "../WidgetDisplay";
-import { fetchAllWidgets } from "../../lib/apiConnect";
-import { Box, Button, Snackbar } from "@mui/material";
+import { Widget, fetchAllWidgets, fetchWidgetByName } from "../../lib/apiConnect";
+import { Autocomplete, Box, Button, Snackbar, TextField } from "@mui/material";
 import { useModal } from "../../hooks/useModal";
 import { CreateWidgetModal } from "../modals/index";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
-import { displaySnackbar, populateWidgets } from "../../redux/reducers/widgets-slice";
+import {
+	displaySnackbar,
+	populateWidgets,
+} from "../../redux/reducers/widgets-slice";
+import { SelectedWidgetModal } from "../modals/selected-widget-modal";
 
 const WidgetList = (): JSX.Element => {
+	const [selectedWidget, setSelectedWidget] = React.useState<Widget>();
 	const { open, handleClose, handleOpen, handleErrorFromServer } = useModal();
-	const snackbarData = useAppSelector((state) => state.widgets.snackbar);
-	const widgetList = useAppSelector((state) => state.widgets.widgetList)
-	const dispatch = useAppDispatch()
+	const { open: openSelectedModal, handleClose: handleCloseSelectedModal, handleOpen: handleOpenSelectedModal } = useModal();
+	const snackbarData = useAppSelector(state => state.widgets.snackbar);
+	const widgetList = useAppSelector(state => state.widgets.widgetList);
+	const dispatch = useAppDispatch();
+	const handleSelectWidget = (name: string | null) => {
+		if (name) {
+			fetchWidgetByName(name).then((data) => {
+				setSelectedWidget(data)
+				handleOpenSelectedModal();
+			}).catch(err => handleErrorFromServer(err));
+		}
+	}
 	useEffect(() => {
 		fetchAllWidgets()
-			.then((data) => dispatch(populateWidgets(data)))
-			.catch(error => handleErrorFromServer(error.response.data));
+			.then(data => dispatch(populateWidgets(data)))
+			.catch(err => handleErrorFromServer(err));
 	}, []);
 
 	return (
@@ -36,6 +50,13 @@ const WidgetList = (): JSX.Element => {
 						Create
 					</Button>
 				</Box>
+				<Autocomplete
+					disablePortal
+					id="combo-box-demo"
+					options={widgetList.map(element => element.name)}
+					renderInput={params => <TextField {...params} label="Search by name" />}
+					onChange={(event: any, newValue: string | null) => handleSelectWidget(newValue)}
+				/>
 				<Grid
 					container
 					justifyContent="center"
@@ -43,12 +64,18 @@ const WidgetList = (): JSX.Element => {
 					sx={{ paddingRight: 4, width: "100%" }}
 				>
 					{widgetList.map((current, index) => (
-						<WidgetDisplay key={index} widget={current} />
+						<WidgetDisplay key={`${current.name}_${index}`} widget={current} withButtons/>
 					))}
 				</Grid>
 			</Stack>
 			<CreateWidgetModal open={open} onClose={handleClose} />
-			<Snackbar open={snackbarData.open} autoHideDuration={6000} message={snackbarData.message} onClose={() => dispatch(displaySnackbar({open: false, message: ""}))}/>
+			<SelectedWidgetModal widget={selectedWidget} open={openSelectedModal} onClose={handleCloseSelectedModal}/>
+			<Snackbar
+				open={snackbarData.open}
+				autoHideDuration={6000}
+				message={snackbarData.message}
+				onClose={() => dispatch(displaySnackbar({ open: false, message: "" }))}
+			/>
 		</>
 	);
 };

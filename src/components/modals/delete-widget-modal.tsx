@@ -17,7 +17,7 @@ export const DeleteWidgetModal = ({ open, onClose, widget }: CustomModalProps) =
 				dispatch(displaySnackbar({open: true, message: "Widget deleted successfully"}))
 				onClose();
 			})
-			.catch(err => handleErrorFromServer(err.response.data));
+			.catch(err => handleErrorFromServer(err));
 		}
 	}
 

@@ -14,9 +14,10 @@ import { useModal } from "../../hooks/useModal";
 
 export interface DisplayWidgetProps {
 	widget: Widget;
+	withButtons?: boolean
 }
 
-const DisplayWidget = ({ widget }: DisplayWidgetProps): JSX.Element => {
+const DisplayWidget = ({ widget, withButtons }: DisplayWidgetProps): JSX.Element => {
 	const { description, name, price } = widget;
 	const {open: editModalOpen, handleOpen: handleEditModalOpen, handleClose: handleEditModalClose} = useModal();
 	const {open: deleteModalOpen, handleOpen: handleDeleteModalOpen, handleClose: handleDeleteModalClose} = useModal();
@@ -28,9 +29,10 @@ const DisplayWidget = ({ widget }: DisplayWidgetProps): JSX.Element => {
 				<CardContent>
 					<Stack spacing={2}>
 						<Typography component="div" gutterBottom variant="h4">
-							<Box display="flex" justifyContent="space-between">
+							<Box display="flex" justifyContent="space-between" flexWrap="wrap">
 								{name}
-								<ButtonGroup>
+								{withButtons && (
+									<ButtonGroup>
 									<IconButton aria-label="edit" color="primary" onClick={handleEditModalOpen}>
 										<EditIcon />
 									</IconButton>
@@ -38,6 +40,8 @@ const DisplayWidget = ({ widget }: DisplayWidgetProps): JSX.Element => {
 										<DeleteForeverIcon />
 									</IconButton>
 								</ButtonGroup>
+								)}
+								
 							</Box>
 						</Typography>
 						<Typography component="div" gutterBottom variant="h5">

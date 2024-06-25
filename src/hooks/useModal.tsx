@@ -7,7 +7,16 @@ export const useModal = () => {
     const dispatch = useDispatch()
     const handleClose = () => setOpen(false)
     const handleOpen = () => setOpen(true)
-    const handleErrorFromServer = (errorMessage: string) => dispatch(displaySnackbar({open: true, message: errorMessage})); 
+    const handleErrorFromServer = (error: any) => {
+        debugger
+        let errorMessage = error.response?.data;
+        if (!errorMessage) {
+            errorMessage = "Internal Server Error";
+        }
+
+        dispatch(displaySnackbar({open: true, message: errorMessage}))
+    }; 
+
     return {
         open,
         handleClose,

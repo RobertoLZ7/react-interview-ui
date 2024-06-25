@@ -57,7 +57,7 @@ export const UpdateWidgetModal = ({
 			dispatch(displaySnackbar({open: true, message: "Widget updated successfully"}));
 			onClose();
 		})
-		.catch(err => handleErrorFromServer(err.response.data));
+		.catch(err => handleErrorFromServer(err));
 	};
 
 	return (

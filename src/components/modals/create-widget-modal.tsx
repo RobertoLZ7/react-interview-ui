@@ -21,7 +21,7 @@ export const CreateWidgetModal = ({ open, onClose }: CustomModalProps) => {
 		price: 0,
 	});
 	const { handleErrorFromServer } = useModal();
-	
+
 	const handleClose = () => {
 		onClose();
 		setNewWidget({
@@ -67,7 +67,7 @@ export const CreateWidgetModal = ({ open, onClose }: CustomModalProps) => {
 				);
 				handleClose();
 			})
-			.catch(err => handleErrorFromServer(err.response.data));
+			.catch(err => handleErrorFromServer(err));
 	};
 
 	return (
