@@ -1,6 +1,6 @@
-# TalentReef React UI Interview Template
+# TalentReef React UI Interview exercise
 
-This [Create React App](https://github.com/facebook/create-react-app) project is provided as a starting template for the TalentReef take-home interview. Feel free to make whatever modifications are necessary to complete the exercise.
+This is my aproach to complete the interview exercise provided. I took the template proyect as the base so all the requirements and scripts should remain the same.
 
 ## Requirements
 
