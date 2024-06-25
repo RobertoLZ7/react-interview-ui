@@ -46,13 +46,13 @@ const WidgetList = (): JSX.Element => {
 					List of widgets:
 				</Typography>
 				<Box display="flex" alignItems="center" justifyContent="center">
-					<Button variant="contained" onClick={handleOpen}>
+					<Button variant="contained" onClick={handleOpen} id="create-widget-button">
 						Create
 					</Button>
 				</Box>
 				<Autocomplete
 					disablePortal
-					id="combo-box-demo"
+					id="search-widget-input"
 					options={widgetList.map(element => element.name)}
 					renderInput={params => <TextField {...params} label="Search by name" />}
 					onChange={(event: any, newValue: string | null) => handleSelectWidget(newValue)}
