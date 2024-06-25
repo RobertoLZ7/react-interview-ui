@@ -1,6 +1,6 @@
 # TalentReef React UI Interview exercise
 
-This is my aproach to complete the interview exercise provided. I took the template proyect as the base so all the requirements and scripts should remain the same.
+This is my approach to complete the interview exercise provided. I took the template project as the base so all the requirements and scripts should remain the same.
 
 ## Requirements
 
@@ -72,7 +72,3 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-## Additional Information
-
-TalentReef will provide you the contact information of a person who can answer questions about the exercise.
