@@ -27,7 +27,7 @@ const widgetsSlice = createSlice({
         state.widgetList = [...state.widgetList, action.payload];
     },
     removeWidget(state, action: PayloadAction<string>) {
-        state.widgetList = state.widgetList.filter(element => element.name != action.payload);
+        state.widgetList = state.widgetList.filter(element => element.name !== action.payload);
     },
     updateWidget(state, action: PayloadAction<Widget>) {
         state.widgetList = state.widgetList.map(element => element.name === action.payload.name ? action.payload : element);

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import WidgetDisplay from "../WidgetDisplay";
-import { fetchAllWidgets, Widget } from "../../lib/apiConnect";
+import { fetchAllWidgets } from "../../lib/apiConnect";
 import { Box, Button, Snackbar } from "@mui/material";
 import { useModal } from "../../hooks/useModal";
 import { CreateWidgetModal } from "../modals/index";
