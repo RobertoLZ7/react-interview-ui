@@ -20,14 +20,6 @@ const DisplayWidget = ({ widget }: DisplayWidgetProps): JSX.Element => {
 	const { description, name, price } = widget;
 	const {open: editModalOpen, handleOpen: handleEditModalOpen, handleClose: handleEditModalClose} = useModal();
 	const {open: deleteModalOpen, handleOpen: handleDeleteModalOpen, handleClose: handleDeleteModalClose} = useModal();
-
-	const handleEdit = () => {
-
-	}
-
-	const handleDelete = () => {
-
-	}
 	
 	return (
 		<>
@@ -58,8 +50,8 @@ const DisplayWidget = ({ widget }: DisplayWidgetProps): JSX.Element => {
 				</CardContent>
 			</Card>
 		</Grid>
-		<UpdateWidgetModal open={editModalOpen} onClose={handleEditModalClose} onSubmit={handleEdit} widget={widget}/>
-		<DeleteWidgetModal open={deleteModalOpen} onClose={handleDeleteModalClose} onSubmit={handleDelete}/>
+		<UpdateWidgetModal open={editModalOpen} onClose={handleEditModalClose} widget={widget} />
+		<DeleteWidgetModal open={deleteModalOpen} onClose={handleDeleteModalClose} widget={widget} />
 		</>
 		
 	);

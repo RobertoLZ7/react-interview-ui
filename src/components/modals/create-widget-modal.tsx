@@ -1,64 +1,77 @@
 import React from "react";
 import { Box, Button, Modal, TextField } from "@mui/material";
-import { CustomModalProps } from ".";
+import { CustomModalProps, style } from ".";
 import { Widget, createWidget } from "../../lib/apiConnect";
-import { isDescriptionValid, isNameValid, isPriceValid } from "../../util/input-validations";
+import {
+	isDescriptionValid,
+	isNameValid,
+	isPriceValid,
+} from "../../util/input-validations";
+import { useAppDispatch } from "../../redux/hooks";
+import {
+	addNewWidget,
+	displaySnackbar,
+} from "../../redux/reducers/widgets-slice";
+import { useModal } from "../../hooks/useModal";
 
-const style = {
-	position: "absolute" as "absolute",
-	top: "50%",
-	left: "50%",
-	transform: "translate(-50%, -50%)",
-	maxWidth: 400,
-	minWidth: 200,
-	bgcolor: "background.paper",
-	boxShadow: 24,
-	pt: 2,
-	px: 4,
-	pb: 3,
-};
-
-export const CreateWidgetModal = ({
-	open,
-	onClose
-}: CustomModalProps) => {
+export const CreateWidgetModal = ({ open, onClose }: CustomModalProps) => {
 	const [newWidget, setNewWidget] = React.useState<Widget>({
 		name: "",
 		description: "",
 		price: 0,
 	});
+	const { handleErrorFromServer } = useModal();
+	
+	const handleClose = () => {
+		onClose();
+		setNewWidget({
+			name: "",
+			description: "",
+			price: 0,
+		});
+	};
 	const [nameError, setNameError] = React.useState<boolean>(false);
 	const [descriptionError, setDescriptionError] =
 		React.useState<boolean>(false);
 	const [priceError, setPriceError] = React.useState<boolean>(false);
+	const dispatch = useAppDispatch();
 
 	const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setNewWidget({
 			...newWidget,
 			[event.target.name]: event.target.value,
 		});
-
-        console.log(newWidget.price)
 	};
 
-    const handleSave = () => {
-        const tempNameError = !isNameValid(newWidget.name);
-        const tempDescriptionError = !isDescriptionValid(newWidget.description);
-        const tempPriceError = !isPriceValid(newWidget.price);
-debugger
-        setNameError(tempNameError);
-        setDescriptionError(tempDescriptionError);
-        setPriceError(tempPriceError);
+	const handleSave = () => {
+		const tempNameError = !isNameValid(newWidget.name);
+		const tempDescriptionError = !isDescriptionValid(newWidget.description);
+		const tempPriceError = !isPriceValid(newWidget.price);
 
-        if (tempNameError || tempDescriptionError || tempPriceError) {
-            return;
-        }
+		setNameError(tempNameError);
+		setDescriptionError(tempDescriptionError);
+		setPriceError(tempPriceError);
 
-        createWidget(newWidget).then((data) => console.log(data) );
-    }
+		if (tempNameError || tempDescriptionError || tempPriceError) {
+			return;
+		}
+
+		createWidget(newWidget)
+			.then(data => {
+				dispatch(addNewWidget(data));
+				dispatch(
+					displaySnackbar({
+						open: true,
+						message: "Widget created successfully",
+					}),
+				);
+				handleClose();
+			})
+			.catch(err => handleErrorFromServer(err.response.data));
+	};
 
 	return (
-		<Modal open={open} onClose={onClose}>
+		<Modal open={open} onClose={handleClose}>
 			<Box sx={{ ...style }}>
 				<h3>Create new widget</h3>
 				<TextField
@@ -95,15 +108,15 @@ debugger
 					label="price"
 					margin="normal"
 					helperText="price must be between 1 and 20,000"
-                    value={newWidget.price}
-                    onChange={handleOnChange}
+					value={newWidget.price}
+					onChange={handleOnChange}
 				/>
 
 				<Box marginBlockStart={5} display="flex" justifyContent="space-between">
 					<Button variant="contained" color="primary" onClick={handleSave}>
 						Create
 					</Button>
-					<Button variant="outlined" onClick={onClose}>
+					<Button variant="outlined" onClick={handleClose}>
 						Cancel
 					</Button>
 				</Box>
