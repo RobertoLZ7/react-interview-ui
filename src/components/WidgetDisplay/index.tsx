@@ -33,10 +33,10 @@ const DisplayWidget = ({ widget, withButtons }: DisplayWidgetProps): JSX.Element
 								{name}
 								{withButtons && (
 									<ButtonGroup>
-									<IconButton aria-label="edit" color="primary" onClick={handleEditModalOpen}>
+									<IconButton aria-label="edit" color="primary" onClick={handleEditModalOpen} data-testid="edit-widget-button" >
 										<EditIcon />
 									</IconButton>
-									<IconButton aria-label="delete" color="error" onClick={handleDeleteModalOpen}>
+									<IconButton aria-label="delete" color="error" onClick={handleDeleteModalOpen} data-testid="delete-widget-button" >
 										<DeleteForeverIcon />
 									</IconButton>
 								</ButtonGroup>
